@@ -23,6 +23,7 @@
   "homepage": "https://github.com/AlastairTaft/route-expedite#readme",
   "devDependencies": {
     "chai": "^3.1.0",
+    "director": "^1.2.8",
     "mocha": "^2.2.5",
     "request": "^2.58.0"
   }

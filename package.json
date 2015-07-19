@@ -1,0 +1,29 @@
+{
+  "name": "route-expedite",
+  "version": "0.0.1",
+  "description": "Map your data fetching methods to commonly used route handling functions, leaving you with more time to code by not wasting your time with route mapping boiler plate boring stuff.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlastairTaft/route-expedite.git"
+  },
+  "keywords": [
+    "route",
+    "mapping",
+    "boilerplate"
+  ],
+  "author": "alastair@fleep.io",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlastairTaft/route-expedite/issues"
+  },
+  "homepage": "https://github.com/AlastairTaft/route-expedite#readme",
+  "devDependencies": {
+    "chai": "^3.1.0",
+    "mocha": "^2.2.5",
+    "request": "^2.58.0"
+  }
+}

@@ -5,6 +5,8 @@
 
 require('./lib/String.startsWith.polyfill.js')
 
+var IncomingMessage = require('http').IncomingMessage
+
  
 module.exports = function(funcOrObject, funcName){
 
@@ -28,15 +30,19 @@ module.exports = function(funcOrObject, funcName){
   })
 
   return function(){
-    debugger;
-
     
-
-    
-
     var self = this;
-    // Start taking the arguments from the router
-    var args = Array.prototype.slice.call(arguments);
+    
+    if (arguments[0] instanceof IncomingMessage){
+      // Assume connect
+      this.req = arguments[0]
+      this.res = arguments[1]
+      var args = Array.prototype.slice.call(arguments, 2);
+      
+    } else {
+      // Start taking the arguments from the router
+      var args = Array.prototype.slice.call(arguments);
+    }
 
     // Assume it's always async, the last param is something like next or done
     var next = args.pop();
@@ -90,4 +96,5 @@ function getParamNames(func) {
 }
 
 
-
+
+

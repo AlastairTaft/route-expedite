@@ -24,10 +24,10 @@ module.exports = function(funcOrObject, funcName){
 
 
   var fParamNames = getParamNames(func)
-  fParamNames.forEach(function(str, i){
+  /*fParamNames.forEach(function(str, i){
     if (str.toLowerCase().startsWith('opt_'))
       fParamNames[i] = str.slice(4)
-  })
+  })*/
 
   return function(req, res, next){
     // director, req will be the callback
@@ -55,7 +55,13 @@ module.exports = function(funcOrObject, funcName){
 
     // Try and grab the remaining parameters 
     for (var i = args.length; i < (fParamNames.length - 1); i++){
-      var pName = fParamNames[i];
+      var pName = fParamNames[i]
+        , optionalParam = false
+
+      if (pName.toLowerCase().startsWith('opt_')){
+        pName = pName.slice(4)
+        optionalParam = true
+      }
       
       // first from the query string
       if (url.query.hasOwnProperty(pName)){
@@ -64,11 +70,15 @@ module.exports = function(funcOrObject, funcName){
       }
 
       // Then try the request body if it exists
-      if (this.req.body){
+      if (this.req.body && this.req.body.hasOwnProperty(pName)){
         args.push(this.req.body[pName]);
         continue
       } else {
         // Don't add the parameter
+        // If the parameter starts with opt then skip it
+        if (optionalParam){
+          continue
+        }
       }
 
       // We don't have a parameter we were expecting, let's notify the user

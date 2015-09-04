@@ -1,6 +1,6 @@
 # route-expedite
 
-Currently works with express/connect (and maybe director).
+Currently works with express/connect and director.
 
 Express sample code
 ```
@@ -21,6 +21,29 @@ Director sample code
 ```
 
 (see mocha test for more exampels)
+
+You can indicate a function paramater is optional by prepending 'opt_' to it. But you're request url should not use the opt, so your request url might look like 
+```
+http://localhost/planet/fastestOrbits?minOrbitalSpeed=20&maxOrbitalPeriod=1.5 ```
+
+and your end point function would look something like...
+
+```
+/**
+ * Get an array of planets in order with the fastest orbital speeds first
+ * @param {number} minOribitalSpeed Don't return any planets with an orbital 
+ * speed below this
+ * @param {number} opt_maxOrbitalPeriod Don't return any planets that exceed
+ * this orbital period
+ * @return {Array}
+ */
+PlanetApi.prototype.getFastestOrbits = function(minOrbitalSpeed, 
+  opt_maxOrbitalPeriod, cb){
+
+  ... Do stuff ...
+
+}
+```
 
 ## Mapping algorithm
 Maps the parameters in order from the router handler function to the data provider function, if in async mode ignores the last router handler function.

@@ -66,9 +66,13 @@ module.exports = function(funcOrObject, funcName){
       // Then try the request body if it exists
       if (this.req.body){
         args.push(this.req.body[pName]);
+        continue
       } else {
         // Don't add the parameter
       }
+
+      // We don't have a parameter we were expecting, let's notify the user
+      return sendError.call(this, (new Error(pName + ' parameter not found')))
     }
 
     // Add the callback
@@ -113,6 +117,28 @@ function getParamNames(func) {
   return result;
 }
 
-
-
+/**
+ * Send an error message to the client
+ */
+function sendError(err){
+  var self = this
+  var responseJson = JSON.stringify({
+    'message': err.message
+  })
+  this.res.writeHead(400
+    , { 
+      'content-type': 'text/json' 
+      , 'content-length': Buffer.byteLength(responseJson, ['utf8'])
+    }
+  )
+  this.res.write(responseJson, function(){
+    //var util = require('util')
+    //console.log(util.inspect(self.res))
+    //self.res.end();
+    //console.log('next called')
+    //next()
+    self.res.end()  
+    
+  })
+}
 

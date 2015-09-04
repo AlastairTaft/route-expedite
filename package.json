@@ -13,7 +13,8 @@
   "keywords": [
     "route",
     "mapping",
-    "boilerplate"
+    "boilerplate",
+    "express"
   ],
   "author": "alastair@fleep.io",
   "license": "ISC",

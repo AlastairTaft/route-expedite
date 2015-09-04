@@ -1,11 +1,14 @@
 # route-expedite
 
-Currently works with the director package.
+Currently works with express/connect (and maybe director).
 
-TODO: Update readme, it's just notes at the moment
+Express sample code
+```
+var genRoute = require('route-expedite')
+app.use('/api/getAccounts', genRoute(cashflowDb, 'selectAccounts'))
+```
 
-Sample code
-
+Director sample code
 ```
     router = new director.http.Router().configure({ async: true });
     router.get('/:name', expedite(planetApi, 'getDetails'));

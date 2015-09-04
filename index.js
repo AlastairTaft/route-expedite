@@ -29,7 +29,9 @@ module.exports = function(funcOrObject, funcName){
       fParamNames[i] = str.slice(4)
   })
 
-  return function(){
+  return function(req, res, next){
+    // director, req will be the callback
+    // express, next will be the callback
     
     var self = this;
     
@@ -37,15 +39,17 @@ module.exports = function(funcOrObject, funcName){
       // Assume connect
       this.req = arguments[0]
       this.res = arguments[1]
-      var args = Array.prototype.slice.call(arguments, 2);
+      var args = Array.prototype.slice.call(arguments, 3);
       
     } else {
       // Start taking the arguments from the router
       var args = Array.prototype.slice.call(arguments);
+      // Assume it's always async, the last param is something like next or done
+      var next = args.pop();
     }
 
     // Assume it's always async, the last param is something like next or done
-    var next = args.pop();
+    //var next = args.pop();
 
     var url = require('url').parse(this.req.url, true);
 
@@ -70,9 +74,23 @@ module.exports = function(funcOrObject, funcName){
     // Add the callback
     args.push(function(err, val){
       if (err) return next(err);
-      self.res.writeHead(200, { 'content-type': 'text/json' });
-      self.res.write(JSON.stringify(val))
-      self.res.end();
+      var json = JSON.stringify(val)
+      self.res.writeHead(200
+        , { 
+          'content-type': 'text/json' 
+          , 'content-length': Buffer.byteLength(json, ['utf8'])
+        }
+      )
+      self.res.write(json, function(){
+        //var util = require('util')
+        //console.log(util.inspect(self.res))
+        //self.res.end();
+        //console.log('next called')
+        //next()
+        self.res.end()  
+        
+      })
+      //next(null, JSON.stringify(val))
     });
 
     func.apply(context, args);

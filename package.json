@@ -1,6 +1,6 @@
 {
   "name": "route-expedite",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Map your data fetching methods to commonly used route handling functions, leaving you with more time to code by not wasting your time with route mapping boiler plate boring stuff.",
   "main": "index.js",
   "scripts": {

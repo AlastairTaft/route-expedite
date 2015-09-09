@@ -88,23 +88,23 @@ module.exports = function(funcOrObject, funcName){
     // Add the callback
     args.push(function(err, val){
       if (err) return next(err);
-      var json = JSON.stringify(val)
+      if (val != null)
+        var json = JSON.stringify(val)
+      
       self.res.writeHead(200
         , { 
           'content-type': 'text/json' 
-          , 'content-length': Buffer.byteLength(json, ['utf8'])
+          , 'content-length': (val != null) 
+            ? Buffer.byteLength(json, ['utf8'])
+            : 0
         }
       )
+      if (val == null)
+        return self.res.end()
+
       self.res.write(json, function(){
-        //var util = require('util')
-        //console.log(util.inspect(self.res))
-        //self.res.end();
-        //console.log('next called')
-        //next()
         self.res.end()  
-        
       })
-      //next(null, JSON.stringify(val))
     });
 
     func.apply(context, args);

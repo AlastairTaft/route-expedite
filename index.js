@@ -16,7 +16,7 @@ module.exports = function(funcOrObject, funcName){
     context = null;
   } else {
     if (!funcName){
-      throw "function name must be provided as the second parameter"
+      throw new Error("function name must be provided as the second parameter")
     }
     func = funcOrObject[funcName];
     context = funcOrObject;

@@ -1,3 +1,6 @@
+# ⚠️ Archived
+This repo is not maintained and old. I would recommend not using it.
+
 # route-expedite
 
 Currently works with express/connect and director.
